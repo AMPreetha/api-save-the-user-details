@@ -1,44 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-    <title>Axios Crash Course</title>
-  </head>
-  <body>
-    <div class="container my-5">
-      <div class="text-center">
-        <h1 class="display-4 text-center mb-3">Axios Crash Course</h1>
-        <button class="btn btn-primary my-3" id="get">GET</button>
-        <button class="btn btn-info" id="post">POST</button>
-        <button class="btn btn-warning" id="update">PUT/PATCH</button>
-        <button class="btn btn-danger" id="delete">DELETE</button>
-        <button class="btn btn-secondary" id="sim">Sim Requests</button>
-        <button class="btn btn-secondary" id="headers">
-          Custom Headers
-        </button>
-        <button class="btn btn-secondary" id="transform">
-          Transform
-        </button>
-        <button class="btn btn-secondary" id="error">
-          Error Handling
-        </button>
-        <button class="btn btn-secondary" id="cancel">
-          Cancel
-        </button>
-      </div>
-      <hr />
-      <div id="res"></div>
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>////booking Appointment App</title>
+</head>
+<body>
+  
+  <form onsubmit="saveToLocalStorage(event)" >
+    <center>
+    <label >Name:</label>
+    <br>
+    <input type="text" name="name" placeholder="enter name" required >
+    <br>
+    <label >Email:</label>
+    <br>
+    <input type="email" name="emailId" placeholder="enter email" width:20%; required>
+    <br>
+    <label >phone Number:
+    </label>
+    <br>
+    <input type="tel"name="phonenumber" placeholder="enter phone number" required >
+    <br>
+    <button>submit</button>
+  </center>
+  </form>
+  <ul id="form">
+    
+  </ul>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="main.js"></script>
-  </body>
-</html
+  <script>
+
+    function saveToLocalStorage(event){
+      event.preventDefault();
+      const name=event.target.name.value;
+      const email=event.target.emailId.value;
+      const phonenumber=event.target.phonenumber.value;
+      //localStorage.setItem('name',name);
+      //localStorage.setItem('email',email);
+      //localStorage.setItem('phonenumber',phonenumber);
+      
+
+      
+      const ans={
+        name,
+        email,
+        phonenumber
+      }
+      axios.post("https://crudcrud.com/api/29031a5bc6d4447eb387f42348f7c541/AppointmentData",ans)
+      .then((response)=>{
+        showUserOnScreen(response.data)
+        console.log(response)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      
+      //localStorage.setItem('UserDetails',JSON.stringify(ans))
+      //showUserOnScreen(ans)
+    }
+    function showUserOnScreen(ans){
+    const parentElem=document.getElementById('form');
+    const childElem=document.createElement('li')
+    childElem.id='list';
+    childElem.textContent=ans.name+'-'+ans.email+'-'+ans.phonenumber+'-';
+    
+    
+    parentElem.appendChild(childElem)
+    edit(childElem)
+    }
+    function edit(childElem){
+    var click=document.createElement('button');
+    click.id='edit';
+    click.innerHTML='edit';
+    childElem.append(click);
+    remove(childElem)
+    }
+    
+    function remove(childElem){
+    var del=document.createElement('button');
+    del.id='remove';
+    del.innerHTML='remove';
+    childElem.append(del);
+    
+    }
+    
+    
+    
+    
+    
+    </script> 
+</body>
+</html>
